@@ -62,7 +62,7 @@ def procesar_matematicas(data_folder, salida_final):
                     subject = f"{cod_asig}.{grupo}"
 
                     filas_finales.append({
-                        "Day": fecha,
+                        "Day": " " + fecha,
                         "Start": start,
                         "End": end,
                         "Subject": subject,
