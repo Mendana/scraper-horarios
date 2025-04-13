@@ -32,7 +32,7 @@ def main():
     run_script("theBoss.py")
 
     print("\n🗂️ Archivos finales generados. Eliminando carpetas temporales...")
-    #limpiar_temporales()
+    limpiar_temporales()
 
     print("\n✅ Proceso completo finalizado. ¡Listo!")
 
