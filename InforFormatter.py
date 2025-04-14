@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 
 def convertir_informatica_csv(entrada, salida):
     # Leer archivo
@@ -16,6 +17,9 @@ def convertir_informatica_csv(entrada, salida):
         "End Time": "End",
         "Location": "Room"
     })
+
+    # Reemplazar 'ALG' por 'ALGO' en la columna Subject
+    df["Subject"] = df["Subject"].apply(lambda x: re.sub(r'^Alg\b', 'Algo', str(x)))
 
     # Función robusta para formatear HH.MM → HH:MM
     def normalizar_hora(hora):
