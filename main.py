@@ -18,7 +18,8 @@ def main():
     print("🧠 Iniciando proceso completo de horarios...\n")
 
     # 1. Scrapers
-    run_script("InforScrapper.py")
+    run_script("InforScrapper1.py")
+    run_script("InforScrapper2.py")
     run_script("MathScrapper.py")
 
     # 2. Unir CSVs individuales de informática

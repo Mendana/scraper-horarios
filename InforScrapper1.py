@@ -14,7 +14,7 @@ def run():
         # Ir a la web
         url = "https://gobierno.ingenieriainformatica.uniovi.es/grado/plan/?y=24-25&t=s1"
         page.goto(url, wait_until="load")
-        page.wait_for_selector("form#theForm")
+        page.wait_for_selector('form#theForm')
 
         # Obtener todos los checkboxes
         all_checkboxes = page.query_selector_all("input[type='checkbox']")
@@ -46,7 +46,7 @@ def run():
                 page.query_selector("input[type='submit'][value='Enviar']").click()
 
             download = download_info.value
-            filename = f"dataI/horario_{i}-{min(i+chunk_size, total)-1}.csv"
+            filename = f"dataI/horario_s1_{i}-{min(i+chunk_size, total)-1}.csv"
             download.save_as(filename)
             print(f"✅ Descargado como {filename}")
 
