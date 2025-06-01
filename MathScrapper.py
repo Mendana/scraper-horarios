@@ -5,12 +5,6 @@ import os
 import glob
 
 def run():
-    asignaturas = [
-        "AF", "AI", "AII", "ALG", "AMatI", "AMatII", "AMatIII", "ANM",
-        "CDI", "EDI", "EDII", "EstyProb", "GCS", "IAMat", "IE", "MDFEDP",
-        "MNumer", "MOR", "ProgM", "PyE", "RNEDO", "TopI", "TopII", "VC"
-    ]
-
     os.makedirs("dataM", exist_ok=True)
 
     with sync_playwright() as p:
@@ -25,7 +19,7 @@ def run():
 
         downloaded_files = set()
         scroll_attempts = 0
-        max_scroll_attempts = 150
+        max_scroll_attempts = 200
 
         while scroll_attempts < max_scroll_attempts:
             visible_rows = page.query_selector_all("[role='row']")
@@ -37,10 +31,11 @@ def run():
                     # Mostrar el nombre exacto
                     print(f"🧐 Detectado: >>{file_name}<<")
 
-                    if file_name in downloaded_files:
+                    if not file_name.endswith("_Listado_de_clases.xls"):
                         continue
-
-                    if not any(file_name == f"{asig}_Listado_de_clases.xls" for asig in asignaturas):
+                    
+                    if file_name in downloaded_files:
+                        print(f"🔄 Ya descargado: {file_name}")
                         continue
 
                     print(f"📄 Descargando: {file_name}")
@@ -73,25 +68,10 @@ def run():
                     print(f"⚠️ Error con '{file_name}': {e}")
                     continue
 
-            # Verificar si ya están todos
-            if len(downloaded_files) >= len(asignaturas):
-                print("✅ Todas las asignaturas descargadas. Cerrando navegador.")
-                browser.close()
-                return
-
             # Scroll más fino
             scroll_container.evaluate("el => el.scrollBy(0, 100)")
             page.wait_for_timeout(300)
             scroll_attempts += 1
-
-        print(f"⚠️ Fin del scroll sin completar todas. Total descargados: {len(downloaded_files)}")
-
-        # Mostrar cuáles faltaron
-        faltantes = [f"{a}_Listado_de_clases.xls" for a in asignaturas if f"{a}_Listado_de_clases.xls" not in downloaded_files]
-        if faltantes:
-            print("❌ Faltaron por descargar:")
-            for f in faltantes:
-                print(f" - {f}")
 
         browser.close()
 
